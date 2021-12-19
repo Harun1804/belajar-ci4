@@ -32,6 +32,9 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
+$routes->get('/coba','CobaController::index');
+$routes->get('/coba/(:any)','CobaController::about/$1');
+$routes->get('/users','Admin/UsersController::index');
 
 /*
  * --------------------------------------------------------------------
