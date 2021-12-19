@@ -12,6 +12,7 @@ class KomikController extends BaseController
     public function __construct()
     {
         $this->komik = new KomikModel();
+        session();
     }
 
     public function index()
@@ -41,7 +42,8 @@ class KomikController extends BaseController
     public function create()
     {
         $data = [
-            'title' => 'Form Tambah Data Komik'
+            'title' => 'Form Tambah Data Komik',
+            'validation' => \Config\Services::validation()
         ];
 
         return view('komik/create',compact('data'));
@@ -49,6 +51,22 @@ class KomikController extends BaseController
 
     public function store()
     {
+        if (!$this->validate([
+            'judul' => [
+                'rules' => 'required|is_unique[komik.judul]',
+                'errors' => [
+                    'required' => '{field} komik harus diisi',
+                    'is_unique' => '{field} komik sudah ada'
+                ]
+            ],
+            //'judul' => 'required|is_unique[komik.judul]',
+            'penulis' => 'required',
+            'penerbit' => 'required',
+            'sampul' => 'required',
+        ])) {
+            $validation = \Config\Services::validation();
+            return redirect()->to('komikcontroller/create')->withInput()->with('validation',$validation);
+        }
         $title = $this->request->getVar('judul');
         $slug = url_title($title,'-',true);
         $this->komik->save([
