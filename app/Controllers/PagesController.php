@@ -11,9 +11,7 @@ class PagesController extends BaseController
         $data = [
             'title' => 'Home'
         ];
-        echo view('layouts/header',compact('data'));
-        echo view('pages/home');
-        echo view('layouts/footer');
+        return view('pages/home',compact('data'));
     }
 
     public function about()
@@ -21,8 +19,25 @@ class PagesController extends BaseController
         $data = [
             'title' => 'About Me'
         ];
-        echo view('layouts/header',compact('data'));
-        echo view('pages/about');
-        echo view('layouts/footer');
+        return view('pages/about',compact('data'));
+    }
+
+    public function contact()
+    {
+        $data = [
+            'title' => 'Contact Us',
+            'alamat' => [
+                [
+                    'tipe' => 'rumah',
+                    'alamat' => 'jl.lalla resident',
+                    'kota' => 'x'
+                ],[
+                    'tipe' => 'kantor',
+                    'alamat' => 'sadwadsf',
+                    'kota' => 'y'
+                ]
+            ]
+        ];
+        return view('pages/contact',compact('data'));
     }
 }
